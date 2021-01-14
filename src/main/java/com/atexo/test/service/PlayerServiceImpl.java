@@ -2,15 +2,20 @@ package com.atexo.test.service;
 
 import com.atexo.test.domain.Player;
 import com.atexo.test.execption.NotFoundException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class PlayerServiceImpl implements PlayerService {
 
-    private List<Player> players;
+    @Value("${hand.size}")
+    private int handSize ;
+
+    private List<Player> players = new ArrayList<>();
 
     @Override
     public List<Player> getPlayers(){
@@ -22,6 +27,8 @@ public class PlayerServiceImpl implements PlayerService {
     public Player getPlayer(String name){
         if(players!=null){
             Optional<Player> player = players.stream().findFirst().filter(v -> v.getName().equals(name));
+            if(player.isEmpty())
+                throw new NotFoundException("Player "+name+ " not found.");
             return player.get();
         }
         else{
@@ -32,12 +39,12 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public Player createPlayer(String name){
         if(players!=null){
-            Player player = new Player(name);
+            Player player = new Player(name, handSize);
             players.add(player);
             return player;
         }
         else{
-            throw new NotFoundException("no player found in game...");
+            throw new NotFoundException("Players list is null !");
         }
     }
 

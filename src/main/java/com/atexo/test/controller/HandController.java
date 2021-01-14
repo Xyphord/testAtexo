@@ -22,7 +22,7 @@ public class HandController {
     @Autowired
     private PlayerService playerService;
 
-    @GetMapping(value="/hands", produces = { "application/json" })
+    @GetMapping(value="/hands", produces = {"application/json" })
     ResponseEntity<Map> all() {
         HashMap<String, Hand> hands = handService.getHands();
         if(hands == null){
@@ -42,8 +42,8 @@ public class HandController {
         return successJson(hand);
     }
 
-    @GetMapping(value="/hand/player/{name}/sort/{order}", produces = { "application/json" })
-    ResponseEntity<Map>  sortByOrder(@PathVariable String name, @PathVariable String order) {
+    @GetMapping(value="/hand/player/{name}/sort", produces = { "application/json" })
+    ResponseEntity<Map>  sortByOrder(@PathVariable String name, @RequestParam(name ="order" , defaultValue = "asc") String order) {
         Player player = playerService.getPlayer(name);
         Hand hand = handService.getHand(player);
         handService.sortHand(hand, order);
@@ -54,8 +54,8 @@ public class HandController {
         return successJson(hand);
     }
 
-    @GetMapping(value="/hand/player/{name}/sort", produces = { "application/json" })
-    ResponseEntity<Map>  sort(@PathVariable String name, @PathVariable String order) {
+    @GetMapping(value="/hand/player/{name}/defaultsort", produces = { "application/json" })
+    ResponseEntity<Map>  sort(@PathVariable String name) {
         Player player = playerService.getPlayer(name);
         Hand hand = handService.getHand(player);
         handService.sortHand(hand);

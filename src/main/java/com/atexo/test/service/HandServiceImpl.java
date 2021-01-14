@@ -16,8 +16,11 @@ public class HandServiceImpl implements HandService {
     @Autowired
     private PlayerService playerService;
 
-    @Value("{hand.default.sort.order}")
+    @Value("${hand.default.sort.order}")
     private String sortOrder ;
+
+    @Value("${hand.size}")
+    private int handSize ;
 
     @Override
     public void sortHand(Hand hand){

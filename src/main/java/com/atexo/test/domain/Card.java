@@ -1,10 +1,12 @@
 package com.atexo.test.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Value;
 
 public class Card implements Comparable<Card>{
 
+    @JsonIgnore
     private String sortOrder ;
     private CardValue cardValue;
     private Color color;
@@ -38,16 +40,16 @@ public class Card implements Comparable<Card>{
     }
 
     public int compareTo(Card card) {
-        if(sortOrder.equals("asc")) {
-            int compareValue = this.color.compareTo(card.getColor());
-            if(compareValue==0)
-                return this.cardValue.compareTo(card.getCardValue());
-        }
-        else
-        {
+        if(sortOrder != null && sortOrder.equals("desc")) {
             int compareValue = card.getColor().compareTo(this.color);
             if(compareValue==0)
                 return card.getCardValue().compareTo(this.cardValue);
+        }
+        else
+        {
+            int compareValue = this.color.compareTo(card.getColor());
+            if(compareValue==0)
+                return this.cardValue.compareTo(card.getCardValue());
         }
         return 0;
     }

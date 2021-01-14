@@ -15,6 +15,8 @@ public enum Color {
         EnumSet<Color> colors = EnumSet.allOf(Color.class) ;
         Optional<Color> result =  colors.stream()
                 .filter(num -> num.order == _status).findFirst();
+        if(result.isEmpty())
+            return null;
         return result.get();
     }
 

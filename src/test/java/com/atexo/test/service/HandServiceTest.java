@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(JUnit4.class)
 public class HandServiceTest extends InitSpringTest {
-    private Hand hand = new Hand();
+    private Hand hand = new Hand(10);
 
     @Before
     public void init(){

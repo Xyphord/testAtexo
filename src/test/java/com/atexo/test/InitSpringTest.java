@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -20,6 +21,7 @@ import org.springframework.web.context.WebApplicationContext;
 @ContextConfiguration(classes = WebConfiguration.class)
 @SpringBootTest(classes = {CardsApplication.class})
 @TestPropertySource(locations="classpath:cards.properties")
+@PropertySource("classpath:cards.properties")
 public class InitSpringTest {
 
     private static final Logger logger = LogManager.getLogger(InitSpringTest.class);

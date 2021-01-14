@@ -20,8 +20,8 @@ public class Player {
         this.hand = hand;
     }
 
-    public Player(String name){
+    public Player(String name, Integer handSize){
         this.name = name;
-        this.hand = new Hand();
+        this.hand = new Hand(handSize);
     }
 }

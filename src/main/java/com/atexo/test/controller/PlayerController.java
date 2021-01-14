@@ -18,13 +18,13 @@ public class PlayerController {
     @Autowired
     private PlayerService playerService;
 
-    @GetMapping(value="/players", produces = { "application/json" })
+    @GetMapping(value="/players", produces = {  "application/json" })
     @ResponseBody
     ResponseEntity<Map> all() throws NotFoundException {
         Map responseJson= new HashMap();
         try {
             List<Player> players = playerService.getPlayers();
-            if(players == null){
+            if(players == null || players.isEmpty()){
                 return errorJson("No players in game.");
             }
             return successJson(players);
@@ -33,7 +33,7 @@ public class PlayerController {
         }
     }
 
-    @GetMapping(value="/player/{name}", produces = { "application/json" })
+    @GetMapping(value="/player/{name}", produces = {  "application/json" })
     @ResponseBody
     ResponseEntity<Map> player(@PathVariable String name) throws NotFoundException  {
         try {
@@ -55,10 +55,10 @@ public class PlayerController {
         if(player == null){
             return errorJson("create player fail.");
         }
-        return successJson(responseJson);
+        return successJson(player);
     }
 
-    @DeleteMapping(value="/player/{name}/delete")
+    @DeleteMapping(value="/player/{name}/delete", produces = { "application/json" })
     void deletePlayer(@PathVariable String name) {
         playerService.deletePlayer(playerService.getPlayer(name));
     }
@@ -67,7 +67,7 @@ public class PlayerController {
         Map responseJson = new HashMap();
         responseJson.put("status", "success");
         responseJson.put("data", data);
-        return ResponseEntity.accepted().body(responseJson);
+        return ResponseEntity.status(HttpStatus.OK).body(responseJson);
     }
 
     private ResponseEntity<Map> errorJson(String message) {

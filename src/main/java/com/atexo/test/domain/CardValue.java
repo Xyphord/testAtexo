@@ -15,6 +15,8 @@ public enum CardValue {
         EnumSet<CardValue> cardValues= EnumSet.allOf(CardValue.class) ;
         Optional<CardValue> result =  cardValues.stream()
                 .filter(num -> num.value == _status).findFirst();
+        if(result.isEmpty())
+            return null;
         return result.get();
     }
 
