@@ -5,9 +5,7 @@ import com.atexo.test.execption.NotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.HashMap;
 
 @Service
 public class PlayerServiceImpl implements PlayerService {
@@ -15,21 +13,21 @@ public class PlayerServiceImpl implements PlayerService {
     @Value("${hand.size}")
     private int handSize ;
 
-    private List<Player> players = new ArrayList<>();
+    private HashMap<String, Player> players = new HashMap<>();
 
     @Override
-    public List<Player> getPlayers(){
+    public  HashMap<String, Player> getPlayers(){
         return players;
     }
 
 
     @Override
     public Player getPlayer(String name){
-        if(players!=null){
-            Optional<Player> player = players.stream().findFirst().filter(v -> v.getName().equals(name));
-            if(player.isEmpty())
+        if(players != null){
+            Player player = players.get(name);
+            if(player == null)
                 throw new NotFoundException("Player "+name+ " not found.");
-            return player.get();
+            return player;
         }
         else{
             throw new NotFoundException("no players found in game...");
@@ -40,7 +38,7 @@ public class PlayerServiceImpl implements PlayerService {
     public Player createPlayer(String name){
         if(players!=null){
             Player player = new Player(name, handSize);
-            players.add(player);
+            players.put(name, player);
             return player;
         }
         else{
@@ -49,9 +47,15 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public void deletePlayer(Player player){
+    public void deletePlayer(String name){
         if(players!=null){
-            players.remove(player);
+            players.remove(name);
+        }
+    }
+    @Override
+    public void deleteAll(){
+        if(players!=null){
+            players.clear();
         }
     }
 

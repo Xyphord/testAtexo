@@ -8,7 +8,6 @@ import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -23,8 +22,10 @@ public class PlayercontrollerTest extends InitSpringTest {
     private PlayerService playerService;
 
     @Test
-    public void testGetAllPlayrReturnNotfound(){
+    public void testGetAllPlayerReturnNotfound(){
         ResultActions resultActions;
+        playerService.deleteAll();
+
         try {
             resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/players"))
                     .andExpect(status().isNotFound()).andExpect(status().is(404));
@@ -36,7 +37,7 @@ public class PlayercontrollerTest extends InitSpringTest {
     }
 
     @Test
-    public void testGetAllPlayrReturnList(){
+    public void testGetAllPlayerReturnList(){
         playerService.createPlayer("one");
         playerService.createPlayer("two");
 
@@ -49,7 +50,7 @@ public class PlayercontrollerTest extends InitSpringTest {
             logger.info(resultActions.andReturn().getResponse().getContentAsString());
 
             JSONObject resultat = new JSONObject(resultActions.andReturn().getResponse().getContentAsString());
-            Assert.assertTrue(resultat.get("one").equals("ERR_MOCKHSM_KEYSTORE_CLOSED"));
+            Assert.assertTrue(resultat.get("data") != null);
 
         } catch (Exception e) {
             e.printStackTrace();

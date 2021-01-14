@@ -18,46 +18,34 @@
 
 <a href="/players" target="_blank">List players</a>
 
+<br>
+Player name <input type="text" id="playername"/>
+
 <form action="/player/" id="createform" method="POST" enctype="application/x-www-form-urlencoded" target="_blank">
-    <b>create player</b>
-    <br>
-    name <input type="text" onchange="javascript:getElementById('createform').action='/player/'+this.value+'/create';"/>
-    <input type="submit" value="go"/>
-</form><br>
+</form><b>create player</b>
+<button onclick="sendForm('createform', '/player/'+document.getElementById('playername').value+'/create');" >go</button><br>
 
 <form action="/player/" id="playerform" method="GET" enctype="application/x-www-form-urlencoded" target="_blank">
-    <b>See player infos</b>
-    <br>
-    name <input type="text" id="playername"/>
-</form>
+</form><b>See player infos</b>
 <button onclick="sendForm('playerform', '/player/'+document.getElementById('playername').value);" >go</button><br>
+
 <form action="/player/" id="playerhandform" method="GET" enctype="application/x-www-form-urlencoded" target="_blank">
-    <b>See player hand</b>
-    <br>
-    name <input type="text" onchange="javascript:getElementById('playerhandform').action='/hand/player/'+this.value+'';"/>
-    <input type="submit" value="go"/>
-</form><br>
+</form><b>See player hand</b>
+<button onclick="sendForm('playerhandform', '/hand/player/'+document.getElementById('playername').value);" >go</button><br>
+
 <form action="/player/" id="sortform" method="GET" enctype="application/x-www-form-urlencoded" target="_blank">
-    <b>Sort player hand</b>
-    <br>
-    name <input type="text" onchange="javascript:getElementById('sortform').action='/hand/player/'+this.value+'/sort';"/>
-    <input type="submit" value="go"/>
-</form><br>
+</form> <b>Sort player hand</b>
+<button onclick="sendForm('sortform', '/hand/player/'+document.getElementById('playername').value+'/sort');" >go</button><br>
 
 <form action="/player/" id="descform" method="GET" enctype="application/x-www-form-urlencoded" target="_blank">
-    <b>descending sort player hand</b>
-    <br>
-    name <input type="text" onchange="javascript:getElementById('descform').action='/hand/player/'+this.value+'/sort/desc';"/>
-    <input type="submit" value="go"/>
-</form><br>
-<form action="/player/" id="deleteform" method="POST" enctype="application/x-www-form-urlencoded" target="_blank">
-    <b>Delete player by name</b>
-    <br>
-    name <input type="text" onchange="javascript:getElementById('deleteform').action='/player/'+this.value+'/delete';"/>
-    <input type="submit" value="go"/>
-</form><br>
-<br>
+    <input type="hidden" value="desc" name="order"/>
+</form><b>descending sort player hand</b>
+<button onclick="sendForm('descform', '/hand/player/'+document.getElementById('playername').value+'/sort');" >go</button><br>
 
+<form action="/player/" id="deleteform" method="POST" enctype="application/x-www-form-urlencoded" target="_blank">
+</form><b>Delete player by name</b>
+<button onclick="sendForm('deleteform', '/player/'+document.getElementById('playername').value+'/delete');" >go</button><br>
+<br>
 <br>
 </body>
 </html>

@@ -23,7 +23,7 @@ public class PlayerController {
     ResponseEntity<Map> all() throws NotFoundException {
         Map responseJson= new HashMap();
         try {
-            List<Player> players = playerService.getPlayers();
+            HashMap<String, Player> players = playerService.getPlayers();
             if(players == null || players.isEmpty()){
                 return errorJson("No players in game.");
             }
@@ -58,9 +58,11 @@ public class PlayerController {
         return successJson(player);
     }
 
-    @DeleteMapping(value="/player/{name}/delete", produces = { "application/json" })
+    //PostMapping au lieu de DeleteMapping car je n'ai pas fait de requete ajax sur mon front.
+    // Les verbes Delete et Put ne sont autorisés qu'en requete ajax sur les navigateurs modernes.
+    @PostMapping(value="/player/{name}/delete", produces = { "application/json" })
     void deletePlayer(@PathVariable String name) {
-        playerService.deletePlayer(playerService.getPlayer(name));
+        playerService.deletePlayer(name);
     }
 
     private ResponseEntity<Map> successJson(Object data) {

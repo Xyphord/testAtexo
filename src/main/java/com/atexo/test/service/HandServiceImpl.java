@@ -29,8 +29,9 @@ public class HandServiceImpl implements HandService {
 
     @Override
     public void sortHand(Hand hand, String overridedSortOrder){
-        List<Card> cards = new ArrayList<>();
-        cards.sort(new Comparator<Card>() {
+
+        Collections.addAll(hand.getActualHand());
+        Collections.sort(hand.getActualHand(),new Comparator<Card>() {
             @Override
             public int compare(Card c1, Card c2) {
                 c1.setSortOrder(overridedSortOrder);
@@ -38,8 +39,6 @@ public class HandServiceImpl implements HandService {
                 return c1.compareTo(c2);
             }
         });
-
-        Collections.sort(hand.getActualHand());
     }
 
     @Override
@@ -50,9 +49,14 @@ public class HandServiceImpl implements HandService {
     @Override
     public HashMap<String, Hand> getHands() {
         HashMap<String, Hand> hands = new HashMap<>();
-        List<Player> players = playerService.getPlayers();
+        HashMap<String, Player> players = playerService.getPlayers();
         if(players != null){
-            players.stream().forEach(v -> hands.put(v.getName(), v.getHand()));  }
+            for(String key: players.keySet()){
+                Player player = players.get(key);
+                if(player != null && player.getHand() != null)
+                    hands.put(key, player.getHand());
+            }
+        }
         else{
             throw new NotFoundException("no players found in game...");
         }
